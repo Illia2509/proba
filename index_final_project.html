@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>LokiFrame — креативний монтаж та AI-відео</title>
+  <meta name="description" content="LokiFrame — професійний відеомонтаж та AI-відео. Поєднуємо креативність і технології, щоб створювати контент, який привертає увагу та допомагає продавати." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg: #0b0c10;
+      --card: #12131a;
+      --muted: #a3a7b7;
+      --text: #e7e9ef;
+      --accent: #7c5cff;
+      --accent-2: #2dd4bf;
+      --ring: rgba(124,92,255,.45);
+      --border: rgba(255,255,255,.08);
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,'Helvetica Neue',Arial}
+    a{color:inherit;text-decoration:none}
+    img{max-width:100%;display:block}
+    .container{width:min(1120px, 100%);margin-inline:auto;padding-inline:20px}
+
+    .btn{display:inline-flex;align-items:center;gap:.6rem;padding:.9rem 1.1rem;border-radius:14px;background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#fff;font-weight:700;border:none;cursor:pointer;box-shadow:0 8px 24px rgba(124,92,255,.25);transition:transform .15s ease, box-shadow .15s ease}
+    .btn:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(124,92,255,.35)}
+    .btn.outline{background:transparent;border:1px solid #2b2e3c;color:var(--text);box-shadow:none}
+    .pill{padding:.35rem .7rem;border:1px solid #2b2e3c;border-radius:999px;font-size:.85rem;color:var(--muted)}
+
+    header.site{position:sticky;top:0;z-index:40;backdrop-filter:saturate(160%) blur(10px);background:rgba(11,12,16,.6);border-bottom:1px solid var(--border)}
+    header .wrap{display:flex;align-items:center;justify-content:space-between;padding:.8rem 0}
+    .brand{display:flex;align-items:center;gap:.7rem;font-weight:800;letter-spacing:.2px}
+    .brand .logo{width:36px;height:36px;border-radius:12px;background:radial-gradient(120% 120% at 20% 10%, #6ee7ff 0%, #7c5cff 35%, rgba(124,92,255,.65) 60%, #0b0c10 100%);box-shadow:inset 0 0 0 2px rgba(255,255,255,.06)}
+    nav ul{list-style:none;margin:0;padding:0;display:flex;gap:1rem;flex-wrap:wrap}
+    nav a{padding:.55rem .8rem;border-radius:10px;color:var(--muted)}
+    nav a:hover{background:#191a22;color:var(--text)}
+
+    .hero{position:relative;isolation:isolate}
+    .hero::before{content:'';position:absolute;inset:-80px -20px -40px;z-index:-1;background:
+      radial-gradient(40% 30% at 20% 10%, rgba(45,212,191,.25), transparent 60%),
+      radial-gradient(50% 40% at 80% 20%, rgba(124,92,255,.25), transparent 60%)}
+    .hero .inner{padding:72px 0 28px;display:grid;grid-template-columns:1.2fr .8fr;gap:40px}
+    .hero h1{font-size:clamp(28px, 4.6vw, 56px);line-height:1.05;margin:0 0 14px;font-weight:800}
+    .hero p{font-size:1.05rem;color:#c9ccda;margin:0 0 22px}
+    .hero .actions{display:flex;gap:.8rem;flex-wrap:wrap}
+    .hero .card{background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));border:1px solid var(--border);border-radius:20px;padding:18px;box-shadow:0 12px 30px rgba(0,0,0,.35)}
+    .hero .art{align-self:center}
+    .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:28px 0 0}
+    .stat{border-radius:18px;background:#12131a;border:1px solid var(--border);padding:16px 18px}
+    .stat .v{font-weight:800;font-size:1.4rem}
+    .stat .k{color:var(--muted);font-size:.9rem}
+
+    section{padding:56px 0}
+    .section-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;gap:12px;flex-wrap:wrap}
+    .section-head h2{margin:0;font-size:clamp(22px,3.6vw,34px)}
+
+    .cta{display:grid;grid-template-columns:1.2fr .8fr;gap:20px}
+    .cta .pane{background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));border:1px solid var(--border);border-radius:20px;padding:22px}
+    .cta h3{margin:6px 0 8px;font-size:1.25rem}
+    .cta ul{margin:10px 0 0 18px;color:#c9ccda}
+    .cta li{margin:.35rem 0}
+
+    .form-card{background:#12131a;border:1px solid var(--border);border-radius:20px;padding:22px}
+    form{display:grid;gap:14px}
+    label{font-weight:600;font-size:.95rem}
+    .field{display:flex;flex-direction:column;gap:.45rem}
+    input,select,textarea{background:#0f1016;border:1px solid #242736;color:var(--text);padding:.9rem 1rem;border-radius:12px;outline:none;width:100%}
+    input:focus,select:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 4px var(--ring)}
+    textarea{min-height:140px;resize:vertical}
+    .form-meta{font-size:.95rem;color:#c9ccda}
+
+    footer{border-top:1px solid var(--border);padding:28px 0;color:var(--muted)}
+
+    /* ===== DatePicker (popover) ===== */
+    .date-input{position:relative}
+    .date-display{cursor:pointer;background:#0f1016}
+    .datepicker{position:absolute;inset:auto auto auto 0;top:calc(100% + 8px);z-index:50;
+      width:min(360px, calc(100vw - 32px));
+      background:#1a1c25;border:1px solid var(--border);border-radius:16px;
+      box-shadow:0 18px 40px rgba(0,0,0,.45);padding:14px;display:none}
+    .datepicker.open{display:block}
+    .dp-title{font-weight:700;margin:2px 4px 10px;color:#dfe3f0}
+    .dp-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+    .dp-nav{display:flex;gap:6px}
+    .dp-header button{background:#2b2e3c;border:none;color:#fff;padding:6px 10px;border-radius:10px;cursor:pointer}
+    .dp-header button:disabled{opacity:.45;cursor:not-allowed}
+    .dp-month{font-weight:700;text-transform:capitalize}
+
+    .dp-daynames,.dp-grid{display:grid;grid-template-columns:repeat(7,1fr);text-align:center}
+    .dp-daynames{color:#a3a7b7;font-size:.8rem;margin:0 4px 6px}
+    .dp-cell{padding:10px 0;border-radius:999px;cursor:pointer;user-select:none}
+    .dp-cell:hover{background:#2b2e3c}
+    .dp-cell.muted{opacity:.35;cursor:default}
+    .dp-cell.disabled{opacity:.35;cursor:not-allowed}
+    .dp-cell.selected{background:#7c5cff;color:#fff;font-weight:800}
+    .dp-actions{display:flex;justify-content:flex-end;margin-top:10px}
+    .dp-actions .btn{padding:.6rem .9rem;border-radius:12px}
+
+    /* close-on-mobile full-width feel */
+    @media (max-width: 600px){
+      header .wrap{flex-direction:column;gap:.6rem}
+      nav ul{justify-content:center}
+      .hero .inner{grid-template-columns:1fr}
+      .stats{grid-template-columns:repeat(2,1fr)}
+      .cta{grid-template-columns:1fr}
+    }
+    @media (max-width: 480px){
+      .stats{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+  <header class="site">
+    <div class="container wrap">
+      <a class="brand" href="#top">
+        <span class="logo" aria-hidden="true"></span>
+        <span>LokiFrame</span>
+      </a>
+      <nav aria-label="Основна навігація">
+        <ul>
+          <li><a href="#create">Створення відео</a></li>
+          <li><a href="#terms">Умови співпраці</a></li>
+          <li><a href="#works">Приклади робіт</a></li>
+          <li><a href="#pricing">Тарифи</a></li>
+          <li><a href="#order">Замовити монтаж</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero container" aria-labelledby="hero-title">
+      <div class="inner">
+        <div>
+          <span class="pill">AI – символ сучасних технологій у відеомонтажі</span>
+          <h1 id="hero-title">LokiFrame — професійний монтаж <br>та AI-відео</h1>
+          <p>Поєднуємо класичний відеомонтаж і передові штучні технології для створення контенту, який привертає увагу, збільшує охоплення і допомагає продавати.</p>
+          <div class="actions">
+            <a class="btn" href="https://calendly.com" target="_blank" rel="noopener">Забронювати зустріч</a>
+            <a class="btn outline" href="#order">Надіслати запит</a>
+          </div>
+
+          <div class="stats" role="list" aria-label="Ключові показники">
+            <div class="stat" role="listitem"><div class="v">100+</div><div class="k">Виконаних проєктів</div></div>
+            <div class="stat" role="listitem"><div class="v">2500+</div><div class="k">Змонтованих відео</div></div>
+            <div class="stat" role="listitem"><div class="v">150 тис.+</div><div class="k">Залучених клієнтів</div></div>
+            <div class="stat" role="listitem"><div class="v">3+ роки</div><div class="k">Досвіду</div></div>
+          </div>
+        </div>
+        <div class="art">
+          <div class="card">
+            <img alt="Арт з неоновими відблисками (заглушка)" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='960' height='720'%3E%3Cdefs%3E%3CradialGradient id='g1' cx='20%25' cy='10%25' r='70%25'%3E%3Cstop offset='0' stop-color='%236ee7ff'/%3E%3Cstop offset='0.4' stop-color='%237c5cff'/%3E%3Cstop offset='1' stop-color='%230b0c10'/%3E%3C/radialGradient%3E%3C/defs%3E%3Crect fill='url(%23g1)' width='100%25' height='100%25'/%3E%3C/svg%3E" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="create">
+      <div class="container cta">
+        <div class="pane">
+          <span class="pill">Готові розпочати?</span>
+          <h3>30-хвилинна онлайн-зустріч</h3>
+          <p class="form-meta">Під час дзвінка ми: обговоримо ідею, оцінимо матеріал, складемо план.</p>
+          <p style="margin-top:12px"><a class="btn" href="https://calendly.com" target="_blank" rel="noopener">Забронювати в Calendly</a></p>
+        </div>
+        <div class="pane">
+          <h3>Про компанію</h3>
+          <p>Ми займаємося монтажем та створенням відео за допомогою ШІ. Нам важливо, щоб відео було не просто гарним, а зрозумілим, ефектним і таким, що хочеться дивитися.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="terms"><div class="container"><div class="section-head"><h2>Умови співпраці</h2></div><p class="form-meta">Опишіть етапи роботи, дедлайни, права на використання.</p></div></section>
+    <section id="works"><div class="container"><div class="section-head"><h2>Приклади робіт</h2></div><p class="form-meta">Додайте посилання на портфоліо або вбудуйте відео.</p></div></section>
+    <section id="pricing"><div class="container"><div class="section-head"><h2>Тарифи</h2></div><p class="form-meta">Опишіть пакети: базовий, стандарт, преміум і що входить до кожного.</p></div></section>
+
+    <!-- ===== Форма із попап-календарем ===== -->
+    <section id="order">
+      <div class="container">
+        <div class="section-head">
+          <h2>Запит на послуги</h2>
+          <span class="pill">Telegram: @kossttyaa</span>
+        </div>
+
+        <div class="form-card">
+          <p class="form-meta">Після надсилання ми зв’яжемося з вами, щоб обговорити деталі та узгодити терміни.</p>
+          <form id="orderForm">
+            <div class="field">
+              <label for="fullName">Повне ім’я <span aria-hidden="true" style="color:#9aa0b4">(обов’язково)</span></label>
+              <input id="fullName" name="fullName" type="text" placeholder="Ім’я Прізвище" required>
+            </div>
+            <div class="field">
+              <label for="email">Email <span aria-hidden="true" style="color:#9aa0b4">(обов’язково)</span></label>
+              <input id="email" name="email" type="email" placeholder="you@example.com" required>
+            </div>
+
+            <!-- Поле, по кліку на яке відкривається календар -->
+            <div class="field">
+              <label for="deadlineDisplay">Бажана дата завершення</label>
+              <div class="date-input" id="deadlineWrapper">
+                <input id="deadlineDisplay" class="date-display" type="text" placeholder="рррр-мм-дд" readonly aria-haspopup="dialog" aria-expanded="false" autocomplete="off">
+                <input id="deadline" name="deadline" type="hidden">
+                <div class="datepicker" id="deadlinePicker" role="dialog" aria-label="Обрати дату" aria-modal="true">
+                  <div class="dp-title">Оберіть дату</div>
+                  <div class="dp-header">
+                    <div class="dp-nav">
+                      <button type="button" id="dpPrev" aria-label="Попередній місяць">‹</button>
+                      <button type="button" id="dpNext" aria-label="Наступний місяць">›</button>
+                    </div>
+                    <div class="dp-month" id="dpMonthLabel">липень 2024</div>
+                    <div style="width:64px"></div>
+                  </div>
+                  <div class="dp-daynames" aria-hidden="true">
+                    <div>Пн</div><div>Вт</div><div>Ср</div><div>Чт</div><div>Пт</div><div>Сб</div><div>Нд</div>
+                  </div>
+                  <div class="dp-grid" id="dpGrid" role="grid" aria-label="Календар"></div>
+                  <div class="dp-actions">
+                    <button class="btn outline" type="button" id="dpClear">Очистити</button>
+                    <button class="btn" type="button" id="dpApply">Готово</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="service">Послуга</label>
+              <select id="service" name="service">
+                <option>Обговорити під час онлайн-зустрічі у Google Meet</option>
+                <option>Відео до 30 секунд</option>
+                <option>Відео до 1 хвилини</option>
+                <option>Відео до 1:30 хвилини</option>
+                <option>Відео до 2 хвилин</option>
+                <option>Відео до 5 хвилин</option>
+                <option>Відео до 10 хвилин</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="notes">Побажання</label>
+              <textarea id="notes" name="notes" placeholder="Коротко опишіть задачу, стиль, референси…"></textarea>
+            </div>
+
+            <div>
+              <button class="btn" type="submit">Надіслати</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container" style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap">
+      <p>© <span id="y"></span> LokiFrame. Усі права захищені.</p>
+      <div style="display:flex;gap:8px">
+        <a href="#top" class="pill">Вгору ↑</a>
+        <a href="https://lokiframe.wordpress.com/" class="pill" target="_blank" rel="noopener">Оригінал на WordPress</a>
+      </div>
+    </div>
+  </footer>
+
+<script>
+    // ===== Helpers
+    const pad = n => String(n).padStart(2,'0');
+    const fmtISO = d => d ? `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}` : '';
+
+    // ===== DatePicker logic (Monday-first)
+    (function initDatePicker(){
+      const wrapper = document.getElementById('deadlineWrapper');
+      const inputDisplay = document.getElementById('deadlineDisplay');
+      const inputHidden  = document.getElementById('deadline');
+      const popover = document.getElementById('deadlinePicker');
+      const grid = document.getElementById('dpGrid');
+      const monthLabel = document.getElementById('dpMonthLabel');
+      const prevBtn = document.getElementById('dpPrev');
+      const nextBtn = document.getElementById('dpNext');
+      const clearBtn = document.getElementById('dpClear');
+      const applyBtn = document.getElementById('dpApply');
+
+      const today = new Date();
+      // Мінімальна дата — сьогодні (заборона минулих дат)
+      const minDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+      let viewDate = new Date(minDate);
+      let selected = null;
+
+      function monthNameUA(d){
+        return d.toLocaleString('uk-UA', { month:'long', year:'numeric' });
+      }
+      function startOfMonth(d){ return new Date(d.getFullYear(), d.getMonth(), 1); }
+      function daysInMonth(d){ return new Date(d.getFullYear(), d.getMonth()+1, 0).getDate(); }
+      // Monday-first index
+      function monIndex(day){ return (day + 6) % 7; }
+
+      function open(){
+        popover.classList.add('open');
+        inputDisplay.setAttribute('aria-expanded','true');
+        positionPopover();
+        document.addEventListener('click', onDocClick);
+        document.addEventListener('keydown', onEsc);
+      }
+      function close(){
+        popover.classList.remove('open');
+        inputDisplay.setAttribute('aria-expanded','false');
+        document.removeEventListener('click', onDocClick);
+        document.removeEventListener('keydown', onEsc);
+      }
+      function onDocClick(e){
+        if(!wrapper.contains(e.target)) close();
+      }
+      function onEsc(e){ if(e.key === 'Escape') close(); }
+
+      function positionPopover(){
+        // якщо не влазить праворуч — притиснути до правого краю контейнера
+        const rect = wrapper.getBoundingClientRect();
+        const pw = popover.offsetWidth;
+        const availableRight = window.innerWidth - rect.left;
+        if(availableRight < pw + 16){
+          popover.style.left = 'auto';
+          popover.style.right = '0';
+        }else{
+          popover.style.right = 'auto';
+          popover.style.left = '0';
+        }
+      }
+
+      function render(){
+        monthLabel.textContent = monthNameUA(viewDate);
+        grid.innerHTML = '';
+
+        const som = startOfMonth(viewDate);
+        const offset = monIndex(som.getDay());
+        const dim = daysInMonth(viewDate);
+
+        // Порожні клітини перед 1 числом
+        for(let i=0;i<offset;i++){
+          const empty = document.createElement('div');
+          empty.className = 'dp-cell muted';
+          grid.appendChild(empty);
+        }
+
+        for(let d=1; d<=dim; d++){
+          const cell = document.createElement('div');
+          cell.className = 'dp-cell';
+          cell.textContent = d;
+          const thisDate = new Date(viewDate.getFullYear(), viewDate.getMonth(), d);
+
+          // disabled (попередні дні)
+          if(thisDate < minDate){
+            cell.classList.add('disabled');
+          }else{
+            cell.addEventListener('click', () => {
+              selected = thisDate;
+              inputHidden.value = fmtISO(selected);
+              inputDisplay.value = fmtISO(selected);
+              // для миттєвого вигляду:
+              render();
+            });
+          }
+
+          // selected style
+          if(selected && thisDate.toDateString() === selected.toDateString()){
+            cell.classList.add('selected');
+          }
+
+          grid.appendChild(cell);
+        }
+      }
+
+      prevBtn.addEventListener('click', () => {
+        viewDate.setMonth(viewDate.getMonth()-1);
+        render();
+      });
+      nextBtn.addEventListener('click', () => {
+        viewDate.setMonth(viewDate.getMonth()+1);
+        render();
+      });
+      clearBtn.addEventListener('click', () => {
+        selected = null;
+        inputHidden.value = '';
+        inputDisplay.value = '';
+        render();
+      });
+      applyBtn.addEventListener('click', () => {
+        // якщо нічого не вибрано — встановити сьогодні
+        if(!selected) { selected = new Date(minDate); inputHidden.value = fmtISO(selected); inputDisplay.value = fmtISO(selected); }
+        close();
+      });
+
+      inputDisplay.addEventListener('click', () => {
+        if(popover.classList.contains('open')) close(); else open();
+      });
+      inputDisplay.addEventListener('focus', open);
+
+      // ініціалізація
+      render();
+      window.addEventListener('resize', positionPopover);
+    })();
+
+    // Рік у футері
+    document.getElementById('y').textContent = new Date().getFullYear();
+
+
+    const BOT_TOKEN = "8494730935:AAFbjzp59yfgDvaeFlc1I8YF_-zlAmwiTHQ";
+    const CHAT_ID = "7342570248";
+    const URL = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
+
+    document.getElementById("orderForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const fullName = document.getElementById("fullName").value;
+      const email = document.getElementById("email").value;
+      const notes = document.getElementById("notes").value;
+      const service = document.getElementById("service").value;
+      const deadline = document.getElementById("deadline").value;
+
+      const text = `
+🆕 Новий запит на послугу:
+👤 Повне ім'я: ${fullName}
+📧 Email: ${email}
+🎬 Послуга: ${service}
+📅 Бажана дата завершення: ${deadline || "Не вказано"}
+📝 Побажання:
+${notes || "Немає"}
+      `;
+
+      fetch(URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          chat_id: CHAT_ID,
+          text: text
+        })
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.ok) {
+          alert("Запит успішно надіслано ✅");
+          document.getElementById("orderForm").reset();
+        } else {
+          alert("Помилка при відправці ❌");
+        }
+      })
+      .catch(err => alert("Помилка: " + err));
+    });
+  </script>
+</body>
+</html>
